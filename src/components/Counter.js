@@ -1,22 +1,23 @@
 import React from "react";
 import { useSelector, useDispatch, connect } from "react-redux";
 import classes from "./Counter.module.css";
+import { counterAction } from '../store/index';
 
 const Counter = () => {
   const dispatch = useDispatch();
-  const counter = useSelector((state) => state.counter);
-  const show = useSelector((state) => state.showCounter);
+  const counter = useSelector((state) => state.counterRed.counter);
+  const show = useSelector((state) => state.counterRed.showCounter);
   const incrementHandler = () => {
-    dispatch({ type: "increment" });
+    dispatch(counterAction.increment());
   };
   const decrementHandler = () => {
-    dispatch({ type: "decrement" });
+    dispatch(counterAction.decrement());
   };
   const toggleCounterHandler = () => {
-    dispatch({ type: "toggle" });
+    dispatch(counterAction.toggle());
   };
   const increaseHandler = () => {
-    dispatch({ type: "increase", amount: 5 });
+    dispatch(counterAction.increase(5)); //{ type: uniqidentifier, payload: 5 }
   };
   return (
     <main className={classes.counter}>
@@ -60,14 +61,14 @@ class Counter extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    counter: state.counter,
+    counter: state.counterRed.counter,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    increment: () => dispatch({ type: "increment" }),
-    decrement: () => dispatch({ type: "decrement" }),
+    increment: () => dispatch(counterAction.increment()),
+    decrement: () => dispatch(counterAction.decrement()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Counter);
